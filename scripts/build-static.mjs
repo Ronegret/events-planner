@@ -48,7 +48,6 @@ const registro = (await readFile(join(root, "src/sw-registro.js"), "utf8"))
 await cp(join(root, "src"), join(dist, "src"), { recursive: true });
 await writeFile(join(dist, "src/sw-registro.js"), registro);
 await cp(join(root, "assets"), join(dist, "assets"), { recursive: true });
-await cp(join(root, ".openai"), join(dist, ".openai"), { recursive: true });
 
 // ---------------------------------------------------------------------------
 // Un solo archivo de JavaScript

@@ -1,0 +1,75 @@
+# Events Planner — configuración para hosting Apache/LiteSpeed
+
+# --- Tipos MIME correctos ---
+AddType text/javascript .js .mjs
+AddType application/manifest+json .webmanifest
+AddType image/svg+xml .svg
+
+# --- Compresión ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# ============================================================================
+# CACHÉ — modo desarrollo
+# ----------------------------------------------------------------------------
+# Mientras la herramienta cambia a diario, la prioridad es que cualquier
+# dispositivo vea SIEMPRE la última versión publicada, sin tener que ir a
+# borrar los datos del sitio en cada móvil y cada tablet.
+#
+# Por eso todo el código —HTML, hojas de estilo, módulos, manifiesto y el
+# propio Service Worker— se sirve con `no-store`: el navegador no guarda copia
+# y vuelve a pedirlo en cada visita. Cuesta unos kilobytes por carga; a cambio,
+# lo que se sube es lo que se ve.
+#
+# Las fotos NO entran aquí. Son el 90 % del peso (8 MB de los 9) y casi nunca
+# cambian: mantenerlas en caché es lo que hace que la app siga abriendo rápido
+# —y sin cobertura— en una finca. Si se sustituye una foto, el sello de
+# compilación de su dirección la renueva igualmente.
+#
+# CUANDO LA APP SE ESTABILICE: cambiar el bloque de código a
+#   Header set Cache-Control "public, max-age=31536000, immutable"
+# porque el sello de compilación (scripts/build-static.mjs) ya garantiza que
+# cada despliegue estrena direcciones.
+# ============================================================================
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|css|js|mjs|json|webmanifest)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header unset ETag
+    Header unset Last-Modified
+  </FilesMatch>
+
+  # El Service Worker, más aún: es el que decide qué ve el resto de la app.
+  <FilesMatch "sw\.js$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Service-Worker-Allowed "/"
+  </FilesMatch>
+
+  # Fotos, vídeo, iconos y tipografías: caché larga. El vídeo de bienvenida son
+  # 2,3 MB que no cambian nunca; volver a bajarlos en cada visita sería tirar
+  # los datos del móvil de alguien por nada.
+  <FilesMatch "\.(jpg|jpeg|png|webp|avif|gif|ico|svg|woff|woff2|ttf|mp4|webm)$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+
+  # Seguridad (el frame-ancestors que un <meta> no puede aplicar).
+  Header set X-Frame-Options "DENY"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                "access plus 0 seconds"
+  ExpiresByType text/css                 "access plus 0 seconds"
+  ExpiresByType text/javascript          "access plus 0 seconds"
+  ExpiresByType application/javascript   "access plus 0 seconds"
+  ExpiresByType image/jpeg               "access plus 1 year"
+  ExpiresByType image/png                "access plus 1 year"
+  ExpiresByType image/svg+xml            "access plus 1 year"
+  ExpiresByType image/x-icon             "access plus 1 year"
+</IfModule>
+
+# Sin listados de directorio.
+Options -Indexes

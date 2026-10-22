@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#56603f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Events Planner · Ideas, plan y grandes momentos</title>
+    <meta name="description" content="Planifica bodas y eventos con tu equipo: invitados, mesas, proveedores, presupuesto y el día del evento, en un solo sitio." />
+    <meta property="og:title" content="Events Planner" />
+    <meta property="og:description" content="Ideas, plan y grandes momentos. La herramienta para planificar bodas y eventos." />
+    <meta property="og:type" content="website" />
+    <!-- Política de contenido: la app solo puede cargar cosas de sí misma y de
+         los sitios que necesita (fuentes de Google, el servicio de iconos de
+         Google para los logos de proveedores, y la API de Supabase). Si alguna
+         vez se colara un texto con código dentro, el navegador se negaría a
+         ejecutarlo. Aquí hay nombres de invitados y alergias: la primera línea
+         de defensa es que esos datos no puedan salir a ninguna parte. -->
+    <!-- `wss://` va aparte de `https://`: un WebSocket no queda cubierto por la
+         entrada https, y sin él los avisos en vivo del equipo fallan con
+         «violates the following Content Security Policy» en la consola y en
+         silencio en la pantalla. OJO: aquí dentro no caben comentarios HTML —
+         acaban dentro del valor y rompen la política entera. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+               script-src 'self';
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+               font-src 'self' https://fonts.gstatic.com;
+               img-src 'self' data: blob: https://www.google.com;
+               media-src 'self';
+               connect-src 'self' https://*.supabase.co wss://*.supabase.co;
+               frame-ancestors 'none';
+               form-action 'self';
+               base-uri 'self';
+               object-src 'none'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png" />
+    <!-- iOS ignora el manifiesto para el icono de la pantalla de inicio: lo
+         coge de aquí. Sin esto guardaba una captura borrosa de la página. -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Events Planner" />
+    <link rel="manifest" href="./manifest.json" />
+    <!-- Las dos fuentes de la marca: "Italiana" para titulares, "DM Sans" para el resto. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Las dos únicas fuentes de la identidad: Italiana para titulares
+         (solo existe en peso 400) y DM Sans para todo lo demás. Las cifras van
+         en DM Sans porque Italiana no tiene peso suficiente para un número. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana&family=DM+Sans:wght@300;400;500;700&display=swap" />
+    <link rel="stylesheet" href="./styles.css?v=94" />
+    <link rel="stylesheet" href="./styles-responsive.css?v=26" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Lo que se ve si la aplicación NO llega a arrancar.
+           Una pantalla en blanco no dice nada a nadie: ni a quien la sufre ni a
+           quien tiene que arreglarla. Si los módulos no cargan —MIME mal
+           servido, archivo que falta, política de seguridad bloqueando— esto
+           se queda en pantalla y explica qué mirar. En cuanto la app pinta, lo
+           sustituye. -->
+      <!-- El `style` va aquí en línea, y no solo en la hoja de estilos, porque
+           esto tiene que estar oculto DESDE EL PRIMER BYTE. Con conexión mala,
+           el HTML llega antes que styles.css y durante ese hueco el navegador
+           pinta esto sin ningún estilo: un cartel de «No se ha podido cargar»
+           en medio de la pantalla en cada visita. Medido: se veía.
+           Lo destapa la animación `arranque-asomar` a los 6 s, que en la
+           cascada de CSS manda sobre el atributo `style`. -->
+      <div class="arranque-fallido" id="arranque-fallido" style="visibility:hidden;opacity:0">
+        <div class="arranque-caja">
+          <p class="arranque-marca">EVENTS PLANNER</p>
+          <h1>No se ha podido cargar</h1>
+          <p>La página ha llegado, pero la aplicación no ha arrancado. Casi siempre
+             es un archivo que no ha subido bien o una copia antigua guardada en
+             el navegador.</p>
+          <div class="arranque-botones">
+            <button type="button" id="arranque-recargar">Volver a intentar</button>
+            <button type="button" id="arranque-limpiar">Limpiar y reintentar</button>
+          </div>
+          <p class="arranque-pista">Si sigue igual, abre la consola del navegador
+             (F12 → Consola) y mándanos el primer mensaje en rojo.</p>
+        </div>
+      </div>
+    </div>
+    <script src="./src/intro.js?v=2"></script>
+    <script src="./src/sw-registro.js?v=3"></script>
+    <script src="./app-config.js"></script>
+    <!-- Bodas de demostración: tres bodas inventadas (una por empezar, una
+         inminente y una ya celebrada) para poder probar la herramienta. -->
+    <script src="./src/data/seed-demo.js"></script>
+    <script defer src="./app.bundle.js?v=31"></script>
+  </body>
+</html>

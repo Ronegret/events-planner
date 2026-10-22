@@ -1,0 +1,58 @@
+{
+  "name": "Events Planner · Ideas, plan y grandes momentos",
+  "short_name": "Events Planner",
+  "description": "Planifica bodas y eventos con tu equipo: invitados, mesas, proveedores, presupuesto y el día del evento.",
+  "start_url": "./",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4efe4",
+  "theme_color": "#56603f",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Bodas",
+      "short_name": "Bodas",
+      "url": "./?ir=bodas",
+      "description": "Listado de bodas"
+    },
+    {
+      "name": "Agenda",
+      "short_name": "Agenda",
+      "url": "./?ir=agenda",
+      "description": "Reuniones de todas las bodas"
+    }
+  ]
+}

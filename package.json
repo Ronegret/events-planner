@@ -1,0 +1,15 @@
+{
+  "name": "events-planner",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "node scripts/build-static.mjs",
+    "supabase:start": "supabase start",
+    "supabase:db:push": "supabase db push",
+    "supabase:comprobar": "node --env-file=.env.local scripts/comprobar-supabase.mjs",
+    "seed:portfolio": "node scripts/gen-seed-portfolio.mjs"
+  },
+  "description": "Events Planner — planificación de bodas y eventos. Ideas, plan y grandes momentos."
+}

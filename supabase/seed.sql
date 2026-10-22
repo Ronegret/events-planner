@@ -1,0 +1,14 @@
+-- Seed local para validar Supabase Studio.
+-- Este archivo no inserta datos automaticamente porque public.profiles depende
+-- de auth.users. Primero crea usuarios en Supabase Authentication y despues
+-- ejecuta manualmente una version adaptada del bloque de abajo.
+
+-- insert into public.profiles (id, display_name, username, role)
+-- values
+--   ('UUID_DE_ADMIN', 'Admin', 'admin', 'owner'),
+--   ('UUID_DE_PERSONA_2', 'Persona 2', 'persona2', 'coordinator'),
+--   ('UUID_DE_PERSONA_3', 'Persona 3', 'persona3', 'coordinator')
+-- on conflict (id) do update
+-- set display_name = excluded.display_name,
+--     username = excluded.username,
+--     role = excluded.role;

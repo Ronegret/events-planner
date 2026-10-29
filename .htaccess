@@ -1,5 +1,12 @@
 # Events Planner — configuración para hosting Apache/LiteSpeed
 
+# --- Dominio antiguo: aem.rodd.es → events.rodd.es (ambos sirven esta carpeta) ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^aem\.rodd\.es$ [NC]
+  RewriteRule ^(.*)$ https://events.rodd.es/$1 [R=301,L]
+</IfModule>
+
 # --- Tipos MIME correctos ---
 AddType text/javascript .js .mjs
 AddType application/manifest+json .webmanifest
